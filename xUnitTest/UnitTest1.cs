@@ -31,7 +31,7 @@ namespace xUnitTest
 
         [Theory]
         [InlineData(10)]
-        [InlineData(99999999)]
+        [InlineData(999999)]
         public void CheckCountAfterAddElement(int value)
         {
             OpenAddressHashTable<int, int> hashTable = new();

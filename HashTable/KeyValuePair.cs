@@ -4,7 +4,7 @@
     {
         public TKey Key { get; set; }
         public TValue Value { get; set; }
-        bool _deleted;
+        private bool _deleted;
 
         public bool Equals(Pair<TKey, TValue> other)
         {
@@ -26,15 +26,15 @@
             return EqualityComparer<TKey>.Default.GetHashCode(Key);
         }
 
-        public static bool operator ==(Pair<TKey, TValue> left, Pair<TKey, TValue> right)
-        {
-            return Equals(left, right);
-        }
+        //public static bool operator ==(Pair<TKey, TValue> left, Pair<TKey, TValue> right)
+        //{
+        //    return Equals(left, right);
+        //}
 
-        public static bool operator !=(Pair<TKey, TValue> left, Pair<TKey, TValue> right)
-        {
-            return !Equals(left, right);
-        }
+        //public static bool operator !=(Pair<TKey, TValue> left, Pair<TKey, TValue> right)
+        //{
+        //    return !Equals(left, right);
+        //}
 
         public Pair(TKey key, TValue value)
         {

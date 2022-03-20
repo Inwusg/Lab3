@@ -1,13 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Diagnostics;
 using System.Text;
 using HashTable;
 
 
 string[] words;
-Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-var encoding = Encoding.GetEncoding(1251);
-using (StreamReader sr = new StreamReader("input3.txt", encoding: encoding))
-    words = sr.ReadToEnd().ToLower().Split(new char[] { ',',':',' ','.','?','!',';','<','=','>','-','1','2','3','4','5','6','7','8','9','0','/',
+using (StreamReader sr = new StreamReader("input3.txt"))
+    words = sr.ReadToEnd().Split(new char[] { ',',':',' ','.','?','!',';','<','=','>','-','1','2','3','4','5','6','7','8','9','0','/',
         '\"', '*', '(', ')','[', ']','\'','\n','\r','\\' }, StringSplitOptions.RemoveEmptyEntries);
 
 
@@ -17,16 +16,15 @@ Dictionary(words);
 sw.Stop();
 Console.WriteLine($"Dictionary : {sw.ElapsedMilliseconds}");
 
+sw.Reset();
 
-Stopwatch sw2 = new Stopwatch();
-sw2.Start();
+sw.Start();
 HeshTable(words);
-sw2.Stop();
-Console.WriteLine($"HashTable : {sw2.ElapsedMilliseconds}");
+sw.Stop();
+Console.WriteLine($"HashTable : {sw.ElapsedMilliseconds}");
 
 
 Console.ReadKey();
-
 
 
 static void HeshTable(string[] words)
@@ -39,7 +37,6 @@ static void HeshTable(string[] words)
         else
             hashTable.Add(word, 1);
     }
-
     foreach (var pair in (from pair in hashTable where pair.Value > 27 select pair))
     {
         hashTable.Remove(pair.Key);
