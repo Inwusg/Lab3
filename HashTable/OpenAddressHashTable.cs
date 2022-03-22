@@ -32,6 +32,7 @@ namespace HashTable
             var hash2 = Hash2(key);
             for (int i = 0; i < _capacity; i++)
             {
+
                 var place = (hash1 + i * hash2) % _capacity;
                 if (_table[place] == null || _table[place].IsDeleted())
                 {
@@ -39,6 +40,7 @@ namespace HashTable
                     Count++;
                     break;
                 }
+                if (_table[place].Key.Equals(key)) throw new ArgumentException("An element with such a key already exists");
                 if (i == _capacity - 1) throw new ApplicationException("HashTable full!!!");
             }
             if (Count >= _capacity * FillFactor) IncreaseTable();

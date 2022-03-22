@@ -6,7 +6,7 @@ using HashTable;
 
 string[] words;
 using (StreamReader sr = new StreamReader("input3.txt"))
-    words = sr.ReadToEnd().Split(new char[] { ',',':',' ','.','?','!',';','<','=','>','-','1','2','3','4','5','6','7','8','9','0','/',
+    words = sr.ReadToEnd().ToLower().Split(new char[] { ',',':',' ','.','?','!',';','<','=','>','-','1','2','3','4','5','6','7','8','9','0','/',
         '\"', '*', '(', ')','[', ']','\'','\n','\r','\\' }, StringSplitOptions.RemoveEmptyEntries);
 
 
