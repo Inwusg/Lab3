@@ -23,8 +23,37 @@ sw.Stop();
 Console.WriteLine($"HashTable : {sw.ElapsedMilliseconds}");
 
 
+sw.Reset();
+
+sw.Start();
+HeshTableMicroSoft(words);
+sw.Stop();
+Console.WriteLine($"HashTableMicroSoft : {sw.ElapsedMilliseconds}");
+
+
 Console.ReadKey();
 
+
+static void HeshTableMicroSoft(string[] words)
+{
+    Hashtable hashTable = new Hashtable();
+    foreach (var word in words)
+    {
+        if (hashTable.ContainsKey(word))
+            hashTable[word] = (int)hashTable[word] + 1;
+        else
+            hashTable.Add(word, 1);
+    }
+
+    List<object> list = new();
+    foreach (var key in hashTable.Keys)
+    {
+        if ((int)hashTable[key] > 27) list.Add(key);
+    }
+
+    foreach (var item in list)
+        hashTable.Remove(item);
+}
 
 static void HeshTable(string[] words)
 {

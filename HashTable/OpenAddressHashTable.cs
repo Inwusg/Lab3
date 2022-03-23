@@ -13,10 +13,11 @@ namespace HashTable
         Pair<TKey, TValue>[] _table;
         private int _capacity;
         public int Count { get; private set; }
-        private const double FillFactor = 0.85;
+        private const double FillFactor = 0.65;
         private int _indexMas;
+        private int _oldPlace;
 
-        public OpenAddressHashTable() : this(14) //9973
+        public OpenAddressHashTable() : this(15) //9973
         { }
         public OpenAddressHashTable(int m)
         {
@@ -24,6 +25,7 @@ namespace HashTable
             _capacity = mas[_indexMas];
             _table = new Pair<TKey, TValue>[_capacity];
             Count = 0;
+            _oldPlace = 0;
         }
 
         public void Add(TKey key, TValue value)
@@ -47,6 +49,7 @@ namespace HashTable
 
         private Pair<TKey, TValue> Find(TKey key)
         {
+            if (_table[_oldPlace] is not null && _table[_oldPlace].Key.Equals(key)) return _table[_oldPlace];
             var hash1 = Hash1(key);
             var hash2 = Hash2(key);
             for (int i = 0; i < _capacity; i++)
@@ -54,7 +57,11 @@ namespace HashTable
                 int place = (hash1 + i * hash2) % _capacity;
                 if (place < 0) break;
                 if (_table[place] == null) return null;
-                if (!_table[place].IsDeleted() && _table[place].Key.Equals(key)) return _table[place];
+                if (!_table[place].IsDeleted() && _table[place].Key.Equals(key))
+                {
+                    _oldPlace = place; 
+                    return _table[place];
+                }
             }
             return null;
         }
@@ -86,6 +93,7 @@ namespace HashTable
 
         private void IncreaseTable()
         {
+            //Console.WriteLine("Resize");
             _indexMas++;
             _capacity = mas[_indexMas];
             Pair<TKey, TValue>[] table = _table;
@@ -100,7 +108,6 @@ namespace HashTable
             var pair = Find(key);
             if (pair == null || pair.IsDeleted()) return false;
             return true;
-
         }
 
         private int Hash1(TKey key)
