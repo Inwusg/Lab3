@@ -30,6 +30,37 @@ namespace xUnitTest
             Assert.True(flag);      
         }
 
+        [Fact]
+        public void TestResizeAndRehash()
+        {
+            int[] mas = {5, 55, 605, 6655, 73205, 805255, 8857508, 4, 44, 484, 5324, 58564};
+            OpenAddressHashTable<int, int> hashTable = new(1);
+
+            foreach (int item in mas) 
+                hashTable.Add(item, item);
+
+            bool flag = false;
+            foreach (int item in mas)
+                flag = hashTable.Remove(item);
+
+            Assert.Equal(0, hashTable.Count);
+        }
+
+        [Fact]
+        public void DeleteNoExistsAItem()
+        {
+            OpenAddressHashTable<int, int> hashTable = new();
+            Assert.False(hashTable.Remove(1));
+        }
+
+        [Fact]
+        public void DeleteExistsAItem()
+        {
+            OpenAddressHashTable<int, int> hashTable = new();
+            hashTable.Add(1, 1);
+            Assert.True(hashTable.Remove(1));
+        }
+
         [Theory]
         [InlineData(10)]
         [InlineData(999999)]

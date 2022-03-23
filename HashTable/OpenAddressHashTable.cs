@@ -32,7 +32,6 @@ namespace HashTable
             var hash2 = Hash2(key);
             for (int i = 0; i < _capacity; i++)
             {
-
                 var place = (hash1 + i * hash2) % _capacity;
                 if (_table[place] == null || _table[place].IsDeleted())
                 {
@@ -52,9 +51,10 @@ namespace HashTable
             var hash2 = Hash2(key);
             for (int i = 0; i < _capacity; i++)
             {
-                var place = (hash1 + i * hash2) % _capacity;
-                if (_table[place] == null || _table[place].IsDeleted()) return null;
-                if (_table[place].Key.Equals(key)) return _table[place];
+                int place = (hash1 + i * hash2) % _capacity;
+                if (place < 0) break;
+                if (_table[place] == null) return null;
+                if (!_table[place].IsDeleted() && _table[place].Key.Equals(key)) return _table[place];
             }
             return null;
         }
@@ -86,10 +86,13 @@ namespace HashTable
 
         private void IncreaseTable()
         {
-            // получить число и увеличить таблицу
             _indexMas++;
             _capacity = mas[_indexMas];
-            Array.Resize(ref _table, _capacity);
+            Pair<TKey, TValue>[] table = _table;
+            _table = new Pair<TKey, TValue>[_capacity];
+            Count = 0;
+            foreach (var pair in table)
+                if (pair != null && !pair.IsDeleted()) Add(pair.Key, pair.Value);
         }
 
         public bool ContainsKey(TKey key)

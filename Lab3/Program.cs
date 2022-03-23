@@ -9,7 +9,6 @@ using (StreamReader sr = new StreamReader("input3.txt"))
     words = sr.ReadToEnd().ToLower().Split(new char[] { ',',':',' ','.','?','!',';','<','=','>','-','1','2','3','4','5','6','7','8','9','0','/',
         '\"', '*', '(', ')','[', ']','\'','\n','\r','\\' }, StringSplitOptions.RemoveEmptyEntries);
 
-
 Stopwatch sw = new Stopwatch();
 sw.Start();
 Dictionary(words);
@@ -37,6 +36,7 @@ static void HeshTable(string[] words)
         else
             hashTable.Add(word, 1);
     }
+    //Console.WriteLine($"k = {hashTable.k}");
     foreach (var pair in (from pair in hashTable where pair.Value > 27 select pair))
     {
         hashTable.Remove(pair.Key);

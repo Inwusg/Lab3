@@ -4,6 +4,7 @@
     {
         public TKey Key { get; set; }
         public TValue Value { get; set; }
+        public int Next { get; set; }
         private bool _deleted;
 
         public bool Equals(Pair<TKey, TValue> other)
@@ -40,6 +41,7 @@
         {
             Key = key;
             Value = value;
+            Next = -1;
             _deleted = false;
         }
 
